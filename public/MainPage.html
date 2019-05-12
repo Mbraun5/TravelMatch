@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>mainPage</title>
+<link href="styles/MainDesign.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+	<script src="https://www.gstatic.com/firebasejs/5.10.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.10.0/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.10.0/firebase.js"></script>
+	<script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+	<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+	<!-- <script src="https://www.gstatic.com/firebasejs/5.10.0/firebase.js"></script> ORIGINAL BEFORE EDIT-->
+	<script>
+		// Initialize Firebase
+		const firebaseConfig = {
+		  apiKey: "AIzaSyBNktXQeeAjkLheLAMEHppiqYFrp-zROsI",
+		  authDomain: "travel-match-1bb1a.firebaseapp.com",
+		  databaseURL: "https://travel-match-1bb1a.firebaseio.com",
+		  projectId: "travel-match-1bb1a",
+		  storageBucket: "travel-match-1bb1a.appspot.com",
+		  messagingSenderId: "183691132093",
+		  appId: "1:183691132093:web:6d49a65c15f64874"
+		};
+		firebase.initializeApp(firebaseConfig);
+	</script>
+	
+	<div class="container">
+		<!-- Navigation Bar -->
+	  <header>
+		<a href="index.html">
+		<h4 class="logo">TravelMatch</h4>
+		  <nav>
+		  <ul>
+			<li><a href="MatchMe.html">Destination Match</a></li>
+			 <li><a href="Contact.html">Contact Us</a></li>
+			 <li><a href="about.html">About</a></li>
+			<li><a href="index.html" onclick="logOut()">Sign Out</a></li>
+		  </ul>
+		</nav>
+	  </header>	
+	</div>
+	<br>
+	<br>
+	<br>
+	<br>
+		<fieldset>
+			<br>
+			<br>
+			<br>
+			<h2 id="welcome">Welcome to TravelMatch!!</h2>
+			<div style="text-align:center">
+			<h2>Top Destination Match</h2>
+			
+			<h4 id="first_match">First Match: </h4>
+			<img src="am.jpg" width="350" id="first_image"> 
+			<br>
+				Desired Departure Date:
+			<input type="date" id="takeOff" min="2019-05-09" max="2020-05-01"> &emsp;&emsp;
+				Desired Return Date:
+			<input type="date" id="beBack" min="2019-05-09" max="2020-05-01">&emsp;
+			<button onclick="outsource('first_match')" >Submit</button>
+			<br>	
+			<br>
+			<h4 id="second_match">Second Match: </h4>
+			<img src="am.jpg" width="350" id="second_image"><br>
+			Desired Departure Date:
+			<input type="date" id="takeOff2" min="2019-05-09" max="2020-05-01"> &emsp;&emsp;
+			Desired Return Date:
+			<input type="date" id="beBack2" min="2019-05-09" max="2020-05-01">&emsp;
+			<button onclick="outsource('second_match')">Submit</button>
+			<br>
+			
+			<br>
+			<h4 id="third_match">Third Match: </h4>
+			<img src="am.jpg" width="350" id="third_image"><br>
+			Desired Departure Date:
+			<input type="date" id="takeOff3" min="2019-05-09" max="2020-05-01"> &emsp;&emsp;
+			Enter a date after:
+			<input type="date" id="beBack3" min="2019-05-09" max="2020-05-01">&emsp;
+			<button onclick="outsource('third_match')">Submit</button>
+			<br>
+			</div>
+	    </fieldset>
+	  <script>//Changes welcome.
+			const auth = firebase.auth();
+			const db = firebase.firestore();
+			var welcome = document.getElementById('welcome');
+			auth.onAuthStateChanged(firebaseUser => {
+				if (firebaseUser) {
+					console.log(firebaseUser.email);
+					console.log(firebaseUser.uid);
+					var docRef = db.collection("Users").doc(firebaseUser.uid);
+					docRef.get().then(function (doc) {
+						if (doc.exists) {
+							welcome.innerHTML = "Welcome to TravelMatch, " + doc.data().FName + "!!";
+						} else {
+							// doc.data() will be undefined in this case
+							console.log("No such document");
+						}
+					}).catch(function (error) {
+						console.log("Error getting document:", error);
+					});             
+				}
+			})
+		</script>
+		<script src="MainPage.js"></script>	  
+</body>
+</html>
